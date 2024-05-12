@@ -5,5 +5,6 @@ from core.application.use_cases.ibase_use_case import IBaseUseCase
 
 class IProductCase(IBaseUseCase):
 
-    def i_product_case():
-        pass
+    @abstractmethod
+    def get_by_category(self, category_id):
+        raise NotImplementedError

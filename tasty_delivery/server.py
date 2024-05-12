@@ -4,13 +4,15 @@ from fastapi.responses import PlainTextResponse
 from pydantic import ValidationError
 
 from adapter.api.controllers.product_controller import ProductController
+from adapter.api.controllers.category_controller import CategoryController
 
 from core.application.use_cases.product.product_case import ProductCase
+from core.application.use_cases.category.category_case import CategoryCase
+
 
 
 from scripts.populate_database import populate
 
-print("SERVER")
 
 app = FastAPI(title="Tasty Delivery")
 
@@ -27,7 +29,12 @@ async def validation_exception_handler(request, exc):
 # Products
 products_controller = ProductController(ProductCase)
 
+# Categories
+category_controller = CategoryController(CategoryCase)
+
 app.include_router(products_controller.router)
+app.include_router(category_controller.router)
+
 
 
 @app.on_event("startup")

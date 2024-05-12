@@ -19,38 +19,36 @@ class ProductCase(IProductCase):
     def get_all(self):
         return self.repository.get_all()
 
-    # def get_by_id(self, id):
-    #     result = self.repository.get_by_id(id)
-    #     if not result:
-    #         msg = f"Produto {id} não encontrado"
-    #         logger.warning(msg)
-    #         raise ObjectNotFound(msg, 404)
-    #     return result
+    def get_by_id(self, id):
+        result = self.repository.get_by_id(id)
+        if not result:
+            msg = f"Produto {id} não encontrado"
+            logger.warning(msg)
+            raise ObjectNotFound(msg, 404)
+        return result
 
-    # def get_by_category(self, category_id):
-    #     return self.repository.get_by_category(category_id)
+    def get_by_category(self, category_id):
+        return self.repository.get_by_category(category_id)
 
-    # @has_permission(permission=['admin'])
-    # def create(self, obj: ProductIN) -> ProductOUT:
-    #     try:
-    #         id = uuid4()
-    #         return self.repository.create(ProductDB(
-    #             **obj.model_dump(exclude_none=True),
-    #             id=id,
-    #             # created_by=self.current_user.id
-    #             )
-    #         )
-    #     except IntegrityError:
-    #         msg = "Produto já existente na base de dados"
-    #         logger.warning(msg)
-    #         raise DuplicateObject(msg, 409)
+    def create(self, obj: ProductIN) -> ProductOUT:
+        try:
+            id = uuid4()
+            return self.repository.create(ProductDB(
+                **obj.model_dump(exclude_none=True),
+                id=id
+                # created_by=obj.user_id
+                )
+            )
+        except IntegrityError:
+            msg = "Produto já existente na base de dados"
+            logger.warning(msg)
+            raise DuplicateObject(msg, 409)
 
-    # @has_permission(permission=['admin'])
-    # def update(self, id, new_values: ProductUpdateIN) -> ProductOUT:
-    #     new_values = new_values.model_dump(exclude_none=True)
-    #     # new_values['updated_by'] = self.current_user.id
-    #     return self.repository.update(id, new_values)
+    def update(self, id, new_values: ProductUpdateIN) -> ProductOUT:
+        new_values = new_values.model_dump(exclude_none=True)
+        # new_values['updated_by'] = self.current_user.id
+        return self.repository.update(id, new_values)
 
     # @has_permission(permission=['admin'])
-    # def delete(self, id):
-    #     return self.repository.delete(id, self.current_user)
+    def delete(self, id):
+        return self.repository.delete(id, self.current_user)

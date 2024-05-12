@@ -3,14 +3,14 @@ from uuid import UUID
 from pydantic import Field, BaseModel
 
 from core.domain.entities.base_entity import Base
-# from core.domain.entities.category import CategoryOUT
-
+from core.domain.entities.category import CategoryOUT
 
 class ProductIN(BaseModel):
     name: str = Field()
     description: str = Field()
     price: float = Field(gt=0)
     category_id: UUID = Field()
+    user_id: UUID
 
 
 class ProductUpdateIN(BaseModel):
@@ -24,4 +24,4 @@ class ProductOUT(Base):
     name: str = Field()
     description: str = Field()
     price: float = Field(gt=0)
-    # category: CategoryOUT | None = Field(None)
+    category: CategoryOUT | None = Field(None)
