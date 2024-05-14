@@ -65,7 +65,7 @@ class ProductController:
             status_code=200
         )
         self.router.add_api_route(
-            path="/{id}",
+            path="/{id}/{created_by}",
             endpoint=self.delete,
             methods=["DELETE"],
             response_model=None,
@@ -112,9 +112,9 @@ class ProductController:
         """
         return self._product_case(db).update(id, product)
 
-    async def delete(self, id: UUID, db=Depends(get_db)):
+    async def delete(self, id: UUID, created_by: str, db=Depends(get_db)):
         """
         Deleta produto
         * Necessário permissionamento de usuário admin
         """
-        return self._product_case(db).delete(id)
+        return self._product_case(db).delete(id, created_by)

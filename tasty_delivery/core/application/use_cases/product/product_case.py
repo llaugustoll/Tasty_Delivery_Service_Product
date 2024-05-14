@@ -36,7 +36,6 @@ class ProductCase(IProductCase):
             return self.repository.create(ProductDB(
                 **obj.model_dump(exclude_none=True),
                 id=id
-                # created_by=obj.user_id
                 )
             )
         except IntegrityError:
@@ -46,9 +45,7 @@ class ProductCase(IProductCase):
 
     def update(self, id, new_values: ProductUpdateIN) -> ProductOUT:
         new_values = new_values.model_dump(exclude_none=True)
-        # new_values['updated_by'] = self.current_user.id
         return self.repository.update(id, new_values)
 
-    # @has_permission(permission=['admin'])
-    def delete(self, id):
-        return self.repository.delete(id, self.current_user)
+    def delete(self, id, created_by):
+        return self.repository.delete(id, created_by)

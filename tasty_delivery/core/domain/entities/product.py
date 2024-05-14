@@ -10,7 +10,7 @@ class ProductIN(BaseModel):
     description: str = Field()
     price: float = Field(gt=0)
     category_id: UUID = Field()
-    user_id: UUID
+    created_by: str = Field()
 
 
 class ProductUpdateIN(BaseModel):
