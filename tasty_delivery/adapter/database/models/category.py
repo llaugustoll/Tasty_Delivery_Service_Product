@@ -17,6 +17,6 @@ class Category(Base):
     is_deleted = Column(BOOLEAN, default=False)
     created_at = Column(TIMESTAMP, default=datetime.utcnow())
     updated_at = Column(TIMESTAMP, onupdate=datetime.utcnow())
-    # created_by: Mapped[UUID] = mapped_column(ForeignKey("users.id"))
-    # updated_by: Mapped[UUID] = mapped_column(ForeignKey("users.id"), nullable=True)
+    created_by = Column(String)
+    updated_by = Column(String)
     products: Mapped[List[Product]] = relationship()

@@ -36,7 +36,7 @@ class CategoryRepository(ICategoryRepository):
 
     def delete(self, id, current_user):
         self.db.query(CategoryDb).filter(CategoryDb.id == id).update(
-            {'is_deleted': True, 'updated_by': str(current_user.id)})
+            {'is_deleted': True, 'updated_by': current_user})
         self.db.flush()
         self.db.commit()
         return None

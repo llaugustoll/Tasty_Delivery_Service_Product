@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from adapter.database.models.category import Category as CategoryDB
 from adapter.repositories.category_repository import CategoryRepository
 from core.application.use_cases.category.icategory_case import ICategoryCase
-from core.domain.entities.category import CategoryOUT
+from core.domain.entities.category import CategoryOUT, CategoryIN
 from core.domain.exceptions.exception import DuplicateObject, ObjectNotFound
 from logger import logger
 
@@ -28,7 +28,6 @@ class CategoryCase(ICategoryCase):
         return result
 
     def create(self, obj: CategoryOUT) -> CategoryOUT:
-        # obj.created_by = self.current_user.id
         try:
             id = uuid4()
             return self.repository.create(CategoryDB( 
@@ -41,10 +40,9 @@ class CategoryCase(ICategoryCase):
             logger.warning(msg)
             raise DuplicateObject(msg, 409)
 
-    def update(self, id, new_values: CategoryOUT) -> CategoryOUT:
-        new_values.id = None
-        # new_values.updated_by = self.current_user.id
-        return self.repository.update(id, new_values.model_dump(exclude_none=True))
-
-    def delete(self, id):
-        return self.repository.delete(id)
+    def update(self, id, new_values: CategoryIN) -> CategoryOUT:
+        new_values = new_values.model_dump(exclude_none=True)
+        return self.repository.update(id, new_values)
+   
+    def delete(self, id, created_by):
+        return self.repository.delete(id,created_by)

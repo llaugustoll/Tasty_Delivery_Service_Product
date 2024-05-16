@@ -13,7 +13,7 @@ from core.domain.exceptions.exception_schema import ObjectNotFound, ObjectDuplic
 class CategoryController:
 
     def __init__(self, category_case: CategoryCase = None):
-        self.router = APIRouter(tags=["Categories"], prefix='/categories')
+        self.router = APIRouter(tags=["Categories"], prefix='/categories_api')
         self.router.add_api_route(
             path="/",
             endpoint=self.categories,
@@ -57,7 +57,7 @@ class CategoryController:
             status_code=200
         )
         self.router.add_api_route(
-            path="/{id}",
+            path="/{id}/{created_by}",
             endpoint=self.delete,
             methods=["DELETE"],
             response_model=None,
@@ -98,10 +98,10 @@ class CategoryController:
         """
         return self._category_case(db).update(id, category)
 
-    async def delete(self, id: UUID, db=Depends(get_db)):
+    async def delete(self, id: UUID, created_by: str ,db=Depends(get_db)):
         """
         Delete uma categoria
         * Necessário permissionamento de usuário
         """
-        self._category_case(db).delete(id)
+        self._category_case(db).delete(id, created_by)
         return None
