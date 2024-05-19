@@ -18,10 +18,12 @@ class Product(Base):
     is_deleted = Column(BOOLEAN, default=False)
     created_at = Column(TIMESTAMP, default=datetime.utcnow())
     updated_at = Column(TIMESTAMP, onupdate=datetime.utcnow())
-    # category_id = Column(UUID, ForeignKey('categories.id'))
-    # category = relationship("Category", back_populates="products", viewonly=True)
-    # created_by: Mapped[UUID] = mapped_column(ForeignKey("users.id"))
-    # updated_by: Mapped[UUID] = mapped_column(ForeignKey("users.id"), nullable=True)
+    category_id = Column(UUID, ForeignKey('categories.id'))
+    category = relationship("Category", back_populates="products", viewonly=True)
+    created_by = Column(String)
+    updated_by = Column(String)
 
     # order_association = relationship('OrderProductAssociation', back_populates='product')
     # orders = association_proxy("order_association", "order")
+                                                                                                                    
+                                                                                                                    

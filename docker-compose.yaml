@@ -1,0 +1,37 @@
+services:
+  tasty_delivery_product:
+    # image: llaugustoll/tasty_delivery_svc_product:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sistema-tasty-svc-product
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_HOST: postgres_product_db:5432
+      DB_DATABASE: tasty_delivery_product
+    volumes:
+      - ./tasty_delivery:/tasty_delivery/
+    ports:
+      - "8001:8000"
+    networks:
+      - tasty_delivery_service_main_compose-bridge
+    depends_on:
+      - postgres_product_db
+
+  postgres_product_db:
+    image: postgres
+    container_name: tasty_postgres_msvc_product
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: tasty_delivery_product
+      POSTGRES_HOST: postgres_product_db:5672
+    ports:
+      - "5433:5432"
+    networks:
+      - tasty_delivery_service_main_compose-bridge
+
+networks:
+  tasty_delivery_service_main_compose-bridge:
+    external: true

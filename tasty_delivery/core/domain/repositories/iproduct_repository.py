@@ -5,5 +5,6 @@ from core.domain.repositories.ibase_repository import IBaseRepository
 
 class IProductRepository(IBaseRepository):
 
-    def i_product_repository():
-        pass
+    @abstractmethod
+    def get_by_category(self, category_id):
+        raise NotImplementedError
