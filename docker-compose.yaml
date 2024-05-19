@@ -1,10 +1,10 @@
 services:
   tasty_delivery_product:
-    # image: llaugustoll/tasty_delivery:v7
+    # image: llaugustoll/tasty_delivery_svc_product:v1
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tasty_delivery_msvc_product
+    container_name: sistema-tasty-svc-product
     environment:
       DB_USERNAME: postgres
       DB_PASSWORD: password
